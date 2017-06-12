@@ -1,0 +1,49 @@
+#root, #root > [data-reactroot], html, body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+#root, #root > [data-reactroot] {
+  display: flex;
+  flex-direction: column;
+}
+
+.Resizer {
+    box-sizing: border-box;
+    background: #eee;
+    opacity: .8;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Resizer:focus {
+  outline: none;
+  background-color: #888;
+}
+
+.Resizer.horizontal {
+    height: 5px;
+    margin: -5px 0;
+    cursor: row-resize;
+    width: 100%;
+}
+
+.Resizer.vertical {
+    width: 5px;
+    margin: 0 -5px;
+    cursor: col-resize;
+}
+
+.ResizerHandle.vertical {
+  background-color: #444;
+  width: 3px;
+  height: 16px;
+}
+
+#workspace {
+    flex: 1;
+    display: flex;
+}

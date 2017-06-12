@@ -297,10 +297,19 @@ SplitPane.defaultProps = {
     split: 'vertical',
     onResizerDoubleClick: (e, resizer) => {
         const splitPane = resizer.props.splitPane;
-        splitPane.state = {
-            active: false,
-            resized: false
-        };
+        if (splitPane.state.resized === false) {
+            splitPane.state = {
+                active: false,
+                resized: true,
+                draggedSize: "100%"
+            };
+        }
+        else {
+            splitPane.state = {
+                active: false,
+                resized: false
+            };
+        }
         splitPane.setSize(splitPane.props, splitPane.state);
     }
 };

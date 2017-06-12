@@ -8,7 +8,7 @@ class Resizer extends Component {
         const { className, resizeHandleClassName, onClick, onDoubleClick, onMouseDown, onTouchEnd, onTouchStart, prefixer, resizerClassName,
             split, style } = this.props;
         const classes = [resizerClassName, split, className];
-        const handleClasses = [ resizeHandleClassName, split  ];
+        const handleClasses = [resizeHandleClassName, split];
 
         return (
             <div
@@ -33,7 +33,7 @@ class Resizer extends Component {
                 onDoubleClick={(event) => {
                     if (onDoubleClick) {
                         event.preventDefault();
-                        onDoubleClick(event);
+                        onDoubleClick(event, this);
                     }
                 }}
             >
@@ -46,6 +46,7 @@ class Resizer extends Component {
 Resizer.propTypes = {
     className: PropTypes.string.isRequired,
     resizeHandleClassName: PropTypes.string.isRequired,
+    resizerClassName: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     onDoubleClick: PropTypes.func,
     onMouseDown: PropTypes.func.isRequired,
@@ -54,7 +55,6 @@ Resizer.propTypes = {
     prefixer: PropTypes.instanceOf(Prefixer).isRequired,
     split: PropTypes.oneOf(['vertical', 'horizontal']),
     style: stylePropType,
-    resizerClassName: PropTypes.string.isRequired,
 };
 
 Resizer.defaultProps = {

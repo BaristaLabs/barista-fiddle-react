@@ -3,8 +3,6 @@ import PropTypes  from 'prop-types';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 
-import 'codemirror/lib/codemirror.css';
-
 function normalizeLineEndings(str) {
 	if (!str) return str;
 	return str.replace(/\r\n|\r/g, '\n');

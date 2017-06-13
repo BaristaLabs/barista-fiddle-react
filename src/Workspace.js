@@ -26,15 +26,6 @@ import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/mode/css/css.js';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
 
-import 'acorn/dist/acorn.js';
-import 'acorn/dist/acorn_loose.js';
-import 'acorn/dist/walk.js';
-
-import 'tern/lib/signal.js';
-import 'tern/lib/tern.js';
-import 'tern/lib/def.js';
-import 'tern/lib/infer.js';
-import 'tern/lib/comment.js';
 import ecmaScriptDefs from 'tern/defs/ecmascript.json';
 
 import 'codemirror/lib/codemirror.css';
@@ -58,21 +49,41 @@ class Workspace extends Component {
         };
 
         this.updateCode = this.updateCode.bind(this);
+        this.onCursorActivity = this.onCursorActivity.bind(this);
+        this.onKeyUp = this.onKeyUp.bind(this);
     }
 
     componentDidMount() {
-        // console.log(this.refs.editor);
-        // console.log(CodeMirror);
-        // this.tern = new CodeMirror.TernServer({
-        //     defs: [ecmaScriptDefs]
-        // });
+        this.ternServer = new CodeMirror.TernServer({
+            defs: [ecmaScriptDefs]
+        });
+    }
+
+    onCursorActivity(cm) {
+        this.ternServer.updateArgHints(cm);
+    }
+
+    onKeyUp(cm, evt) {
+
+        //Force an auto-complete after "."
+        if (evt.keyCode === 190) {
+            this.ternServer.complete(cm);
+            return;
+        }
+
+        var cursorPos = cm.getCursor();
+        var line = cm.getLine(cursorPos.line);
+
+        if (line.match(/^.*require\(['|"]$/i)) {
+            this.ternServer.complete(cm);
+        }
     }
 
     updateCode(newCode) {
         this.setState({
             code: newCode
         });
-        console.log(this.state);
+        //console.log(this.state);
     }
 
     render() {
@@ -105,8 +116,8 @@ class Workspace extends Component {
                 "Ctrl-Shift-Enter": function (cm) {
                     //$scope.debugScript();
                 },
-                "Ctrl-Space": function (cm) {
-                    //$scope.tab.__tern.complete(cm);
+                "Ctrl-Space": (cm) => {
+                    this.ternServer.complete(cm);
                 },
                 "Shift-Ctrl-C": function (cm) {
                     if (!cm.somethingSelected())
@@ -136,22 +147,22 @@ class Workspace extends Component {
                     //$scope.tidyUp($scope.tab);
                 },
                 "Ctrl-I": function (cm) {
-                    //$scope.tab.__tern.showType(cm);
+                    this.ternServer.showType(cm);
                 },
                 "Ctrl-O": function (cm) {
-                    //$scope.tab.__tern.showDocs(cm);
+                    this.ternServer.showDocs(cm);
                 },
                 "Alt-.": function (cm) {
-                    //$scope.tab.__tern.jumpToDef(cm);
+                    this.ternServer.jumpToDef(cm);
                 },
                 "Alt-,": function (cm) {
-                    //$scope.tab.__tern.jumpBack(cm);
+                    this.ternServer.jumpBack(cm);
                 },
                 "Ctrl-Q": function (cm) {
-                    //$scope.tab.__tern.rename(cm);
+                    this.ternServer.rename(cm);
                 },
                 "Ctrl-.": function (cm) {
-                    //$scope.tab.__tern.selectName(cm);
+                    this.ternServer.selectName(cm);
                 }
             }
         };
@@ -168,7 +179,7 @@ class Workspace extends Component {
                 </Dock>
                 <div id="workspace">
                     <SplitPane defaultSize="50%" minSize={250} split="vertical">
-                        <Codemirror ref="editor" value={this.state.code} onChange={this.updateCode} options={options} autoFocus={true} workspace={this} />
+                        <Codemirror ref="editor" value={this.state.code} onChange={this.updateCode} onCursorActivity={this.onCursorActivity} onKeyUp={this.onKeyUp} options={options} autoFocus={true} workspace={this} />
                         <div />
                     </SplitPane>
                 </div>

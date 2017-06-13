@@ -14,6 +14,7 @@ class CodeMirror extends Component {
 
         this.cursorActivity = this.cursorActivity.bind(this);
         this.scrollChanged = this.scrollChanged.bind(this);
+		this.keyUp = this.keyUp.bind(this);
         this.focus = this.focus.bind(this);
         this.focusChanged = this.focusChanged.bind(this);
 		this.codemirrorValueChanged = this.codemirrorValueChanged.bind(this);
@@ -43,6 +44,7 @@ class CodeMirror extends Component {
 		this.codeMirror.on('focus', this.focusChanged.bind(this, true));
 		this.codeMirror.on('blur', this.focusChanged.bind(this, false));
 		this.codeMirror.on('scroll', this.scrollChanged);
+		this.codeMirror.on('keyup', this.keyUp);
 		this.codeMirror.setValue(this.props.defaultValue || this.props.value || '');
 	}
 	componentWillUnmount() {
@@ -89,6 +91,9 @@ class CodeMirror extends Component {
 		});
 		this.props.onFocusChange && this.props.onFocusChange(focused);
 	}
+	keyUp(cm, evt) {
+		this.props.onKeyUp && this.props.onKeyUp(cm, evt);
+	}
 	cursorActivity(cm) {
 		this.props.onCursorActivity && this.props.onCursorActivity(cm);
 	}
@@ -129,6 +134,7 @@ CodeMirror.propTypes = {
 	onChange: PropTypes.func,
 	onCursorActivity: PropTypes.func,
 	onFocusChange: PropTypes.func,
+	onKeyUp: PropTypes.func,
 	onScroll: PropTypes.func,
 	options: PropTypes.object,
 	path: PropTypes.string,

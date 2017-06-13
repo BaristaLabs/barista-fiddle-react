@@ -7,6 +7,7 @@ import Codemirror from './codemirror/Codemirror.js';
 import CodeMirror from 'codemirror'
 import 'codemirror/addon/lint/lint.js';
 import 'codemirror/addon/lint/javascript-lint.js';
+import 'codemirror/addon/edit/matchbrackets.js';
 import 'codemirror/addon/fold/foldcode.js';
 import 'codemirror/addon/fold/foldgutter.js';
 import 'codemirror/addon/fold/brace-fold.js';
@@ -90,6 +91,7 @@ class Workspace extends Component {
         const options = {
             lineNumbers: true,
             viewportMargin: Infinity,
+            matchBrackets: true,
             mode: { name: "javascript", json: false },
             theme: "neat",
             indentUnit: 4,

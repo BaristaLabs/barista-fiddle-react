@@ -119,14 +119,14 @@ class Workspace extends Component {
                 "Ctrl-Space": (cm) => {
                     this.ternServer.complete(cm);
                 },
-                "Shift-Ctrl-C": function (cm) {
+                "Shift-Ctrl-C": (cm) => {
                     if (!cm.somethingSelected())
                         return;
 
                     var selection = cm.listSelections()[0];
                     cm.toggleComment(selection.head, selection.anchor, { blockCommentStart: "/*", blockCommentEnd: "*/", lineComment: "//" });
                 },
-                "Ctrl-/": function (cm) {
+                "Ctrl-/": (cm) => {
                     if (!cm.somethingSelected())
                         return;
 
@@ -136,32 +136,32 @@ class Workspace extends Component {
                     else
                         cm.lineComment(selection.head, selection.anchor, { lineComment: "//" });
                 },
-                "Shift-Ctrl-/": function (cm) {
+                "Shift-Ctrl-/": (cm) => {
                     if (!cm.somethingSelected())
                         return;
 
                     var selection = cm.listSelections()[0];
                     cm.uncomment(selection.head, selection.anchor, { blockCommentStart: "/*", blockCommentEnd: "*/" });
                 },
-                "Ctrl-K Ctrl-D": function (cm) {
+                "Ctrl-K Ctrl-D": (cm) => {
                     //$scope.tidyUp($scope.tab);
                 },
-                "Ctrl-I": function (cm) {
+                "Ctrl-I": (cm) => {
                     this.ternServer.showType(cm);
                 },
-                "Ctrl-O": function (cm) {
+                "Ctrl-O": (cm) => {
                     this.ternServer.showDocs(cm);
                 },
-                "Alt-.": function (cm) {
+                "Alt-.": (cm) => {
                     this.ternServer.jumpToDef(cm);
                 },
-                "Alt-,": function (cm) {
+                "Alt-,": (cm) => {
                     this.ternServer.jumpBack(cm);
                 },
-                "Ctrl-Q": function (cm) {
+                "Ctrl-Q": (cm) => {
                     this.ternServer.rename(cm);
                 },
-                "Ctrl-.": function (cm) {
+                "Ctrl-.": (cm) => {
                     this.ternServer.selectName(cm);
                 }
             }

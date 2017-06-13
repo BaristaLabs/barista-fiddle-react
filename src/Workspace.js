@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
-import Dock from'react-dock';
+import Dock from 'react-dock';
 import SplitPane from './split-pane/SplitPane.js';
 
 import Codemirror from './codemirror/Codemirror.js';
+import CodeMirror from 'codemirror'
 import 'codemirror/addon/lint/lint.js';
 import 'codemirror/addon/lint/javascript-lint.js';
 import 'codemirror/addon/fold/foldcode.js';
@@ -34,6 +35,7 @@ import 'tern/lib/tern.js';
 import 'tern/lib/def.js';
 import 'tern/lib/infer.js';
 import 'tern/lib/comment.js';
+import ecmaScriptDefs from 'tern/defs/ecmascript.json';
 
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/addon/dialog/dialog.css';
@@ -59,7 +61,11 @@ class Workspace extends Component {
     }
 
     componentDidMount() {
-        console.log(this.refs.editor);
+        // console.log(this.refs.editor);
+        // console.log(CodeMirror);
+        // this.tern = new CodeMirror.TernServer({
+        //     defs: [ecmaScriptDefs]
+        // });
     }
 
     updateCode(newCode) {
@@ -154,7 +160,7 @@ class Workspace extends Component {
             <div>
                 <AppBar
                     title="Barista Fiddle"
-                    onLeftIconButtonTouchTap={() => this.setState({ dockIsVisible: !this.state.dockIsVisible})}
+                    onLeftIconButtonTouchTap={() => this.setState({ dockIsVisible: !this.state.dockIsVisible })}
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
                 />
                 <Dock position='left' isVisible={this.state.isVisible}>

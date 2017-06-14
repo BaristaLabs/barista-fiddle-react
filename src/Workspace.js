@@ -34,6 +34,7 @@ import 'codemirror/addon/hint/show-hint.js';
 import 'codemirror/addon/hint/show-hint.css';
 import 'codemirror/addon/tern/tern.js';
 import 'codemirror/addon/tern/tern.css';
+import tern from 'tern';
 import ecmaScriptDefs from 'tern/defs/ecmascript.json';
 import 'codemirror/mode/xml/xml.js';
 import 'codemirror/mode/javascript/javascript.js';
@@ -46,6 +47,7 @@ import 'codemirror/theme/neat.css'
 //Workspace Styles
 import './Workspace.css'
 
+window.tern = tern;
 window.JSHINT = jshint.JSHINT;
 
 class Workspace extends Component {

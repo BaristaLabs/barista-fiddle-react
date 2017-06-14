@@ -2,14 +2,22 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import Dock from 'react-dock';
 import SplitPane from './split-pane/SplitPane.js';
+import CodeMirrorComponent from './codemirror/Codemirror.js';
 
-import Codemirror from './codemirror/Codemirror.js';
-import CodeMirror from 'codemirror'
+//Main CodeMirror
+import CodeMirror from 'codemirror';
+import 'codemirror/lib/codemirror.css';
+
+//CodeMirror Linting
+import jshint from 'jshint';
 import 'codemirror/addon/lint/lint.js';
+import 'codemirror/addon/lint/lint.css';
 import 'codemirror/addon/lint/javascript-lint.js';
+
 import 'codemirror/addon/edit/matchbrackets.js';
 import 'codemirror/addon/fold/foldcode.js';
 import 'codemirror/addon/fold/foldgutter.js';
+import 'codemirror/addon/fold/foldgutter.css';
 import 'codemirror/addon/fold/brace-fold.js';
 import 'codemirror/addon/fold/comment-fold.js';
 import 'codemirror/addon/search/search.js';
@@ -17,27 +25,28 @@ import 'codemirror/addon/search/searchcursor.js';
 import 'codemirror/addon/search/match-highlighter.js';
 import 'codemirror/addon/comment/comment.js';
 import 'codemirror/addon/scroll/simplescrollbars.js';
+import 'codemirror/addon/scroll/simplescrollbars.css';
 import 'codemirror/addon/scroll/annotatescrollbar.js';
 import 'codemirror/addon/selection/active-line.js';
 import 'codemirror/addon/dialog/dialog.js';
+import 'codemirror/addon/dialog/dialog.css';
 import 'codemirror/addon/hint/show-hint.js';
+import 'codemirror/addon/hint/show-hint.css';
 import 'codemirror/addon/tern/tern.js';
+import 'codemirror/addon/tern/tern.css';
+import ecmaScriptDefs from 'tern/defs/ecmascript.json';
 import 'codemirror/mode/xml/xml.js';
 import 'codemirror/mode/javascript/javascript.js';
 import 'codemirror/mode/css/css.js';
 import 'codemirror/mode/htmlmixed/htmlmixed.js';
 
-import ecmaScriptDefs from 'tern/defs/ecmascript.json';
-
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/addon/dialog/dialog.css';
-import 'codemirror/addon/hint/show-hint.css';
-import 'codemirror/addon/tern/tern.css';
-import 'codemirror/addon/lint/lint.css';
-import 'codemirror/addon/scroll/simplescrollbars.css';
-import 'codemirror/addon/fold/foldgutter.css';
+//CodeMirror Themes
 import 'codemirror/theme/neat.css'
+
+//Workspace Styles
 import './Workspace.css'
+
+window.JSHINT = jshint.JSHINT;
 
 class Workspace extends Component {
     constructor() {
@@ -175,13 +184,14 @@ class Workspace extends Component {
                     title="Barista Fiddle"
                     onLeftIconButtonTouchTap={() => this.setState({ dockIsVisible: !this.state.dockIsVisible })}
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
+                    style={{ zIndex: 0 }}
                 />
                 <Dock position='left' isVisible={this.state.isVisible}>
                     <div onClick={() => this.setState({ dockIsVisible: !this.state.dockIsVisible })}>X</div>
                 </Dock>
                 <div id="workspace">
                     <SplitPane defaultSize="50%" minSize={250} split="vertical">
-                        <Codemirror ref="editor" value={this.state.code} onChange={this.updateCode} onCursorActivity={this.onCursorActivity} onKeyUp={this.onKeyUp} options={options} autoFocus={true} workspace={this} />
+                        <CodeMirrorComponent ref="editor" value={this.state.code} onChange={this.updateCode} onCursorActivity={this.onCursorActivity} onKeyUp={this.onKeyUp} options={options} autoFocus={true} workspace={this} />
                         <div />
                     </SplitPane>
                 </div>

@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "acorn": "^5.0.3",
+    "clipboard-js": "^0.3.3",
     "codemirror": "^5.26.0",
     "inline-style-prefixer": "^3.0.5",
     "jshint": "^2.9.4",

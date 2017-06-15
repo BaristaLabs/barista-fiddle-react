@@ -6,6 +6,7 @@ import stylePropType from 'react-style-proptype';
 
 import Pane from './Pane';
 import Resizer from './Resizer';
+import _ from 'lodash';
 
 function unFocus(document, window) {
     if (document.selection) {
@@ -19,8 +20,8 @@ function unFocus(document, window) {
 }
 
 class SplitPane extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onTouchStart = this.onTouchStart.bind(this);
@@ -167,7 +168,10 @@ class SplitPane extends Component {
         const ref = primary === 'first' ? this.pane1 : this.pane2;
         let newSize;
         if (ref) {
-            newSize = props.size || (state && state.draggedSize) || props.defaultSize || props.minSize;
+            if (_.isNumber(props.size) && props.size >= 0)
+                newSize = props.size;
+            else
+                newSize = props.size || (state && state.draggedSize) || props.defaultSize || props.minSize;
             ref.setState({
                 size: newSize,
             });

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
-import Dock from 'react-dock';
-import SplitPane from './split-pane/SplitPane.js';
-import CodeMirrorComponent from './codemirror/Codemirror.js';
+import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
+import IconButton from 'material-ui/IconButton';
+import {Tabs, Tab} from 'material-ui/Tabs';
+import SplitPane from '../split-pane/SplitPane.js';
+import CodeMirrorComponent from '../codemirror/Codemirror.js';
 
 //Main CodeMirror
 import CodeMirror from 'codemirror';
@@ -63,6 +65,8 @@ class Workspace extends Component {
         this.updateCode = this.updateCode.bind(this);
         this.onCursorActivity = this.onCursorActivity.bind(this);
         this.onKeyUp = this.onKeyUp.bind(this);
+        this.toggleSidebar = this.toggleSidebar.bind(this);
+        this.updateSidebarSize = this.updateSidebarSize.bind(this);
     }
 
     componentDidMount() {
@@ -96,6 +100,26 @@ class Workspace extends Component {
             code: newCode
         });
         //console.log(this.state);
+    }
+
+    toggleSidebar() {
+
+        if (this.state.sidebarSize) {
+            this.setState({
+                sidebarSize: 0,
+                sidebarPrevSize: this.state.sidebarSize
+            });
+        } else {
+            this.setState({
+                sidebarSize: this.state.sidebarPrevSize || 300
+            });
+        }
+    }
+
+    updateSidebarSize(size) {
+        this.setState({
+            sidebarSize: size
+        });
     }
 
     render() {
@@ -182,19 +206,47 @@ class Workspace extends Component {
 
         return (
             <div>
+                {/*<Toolbar className="nav-bar">
+                    <ToolbarGroup firstChild={true}>
+                         <IconButton iconClassName="sidebar-toggle-button-icon" />
+                        <ToolbarTitle text="Barista Fiddle" />
+                        <ToolbarSeparator />
+                    </ToolbarGroup>
+                </Toolbar>*/}
                 <AppBar
                     title="Barista Fiddle"
-                    onLeftIconButtonTouchTap={() => this.setState({ dockIsVisible: !this.state.dockIsVisible })}
-                    iconClassNameRight="muidocs-icon-navigation-expand-more"
+                    onLeftIconButtonTouchTap={this.toggleSidebar}
+                    iconClassNameLeft="sidebar-toggle-button-icon"
                     style={{ zIndex: 0 }}
-                />
-                <Dock position='left' isVisible={this.state.isVisible}>
-                    <div onClick={() => this.setState({ dockIsVisible: !this.state.dockIsVisible })}>X</div>
-                </Dock>
+                >
+                <div className="foo">yi</div>
+                </AppBar>
                 <div id="workspace">
-                    <SplitPane defaultSize="50%" minSize={250} split="vertical">
-                        <CodeMirrorComponent ref="editor" value={this.state.code} onChange={this.updateCode} onCursorActivity={this.onCursorActivity} onKeyUp={this.onKeyUp} options={options} autoFocus={true} workspace={this} />
-                        <div />
+                    <SplitPane defaultSize="0" split="vertical"
+                        className="left-sidebar"
+                        minSize={300}
+                        maxSize={500}
+                        size={this.state.sidebarSize}
+                        onChange={this.updateSidebarSize}
+                    >
+                        <div>
+                            <Tabs>
+                                <Tab label="History">
+                                </Tab>
+                                <Tab label="Collections">
+                                </Tab>
+                            </Tabs>
+                        </div>
+                        <SplitPane defaultSize="50%" minSize={250} split="vertical">
+                            <CodeMirrorComponent ref="editor" value={this.state.code}
+                                onChange={this.updateCode}
+                                onCursorActivity={this.onCursorActivity}
+                                onKeyUp={this.onKeyUp} options={options}
+                                autoFocus={true}
+                                workspace={this}
+                            />
+                            <div />
+                        </SplitPane>
                     </SplitPane>
                 </div>
             </div>

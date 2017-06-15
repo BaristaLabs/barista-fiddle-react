@@ -9,8 +9,8 @@ function normalizeLineEndings(str) {
 }
 
 class CodeMirror extends Component {
-	constructor() {
-        super();
+	constructor(props) {
+        super(props);
 
         this.cursorActivity = this.cursorActivity.bind(this);
         this.scrollChanged = this.scrollChanged.bind(this);

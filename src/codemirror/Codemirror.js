@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes  from 'prop-types';
+import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 import isEqual from 'lodash/isEqual';
 
@@ -9,19 +9,40 @@ function normalizeLineEndings(str) {
 }
 
 class CodeMirror extends Component {
-	constructor(props) {
-        super(props);
+	static propTypes = {
+		autoFocus: PropTypes.bool,
+		className: PropTypes.any,
+		codeMirrorInstance: PropTypes.func,
+		defaultValue: PropTypes.string,
+		name: PropTypes.string,
+		onChange: PropTypes.func,
+		onCursorActivity: PropTypes.func,
+		onFocusChange: PropTypes.func,
+		onKeyUp: PropTypes.func,
+		onScroll: PropTypes.func,
+		options: PropTypes.object,
+		path: PropTypes.string,
+		value: PropTypes.string,
+		preserveScrollPosition: PropTypes.bool,
+	};
 
-        this.cursorActivity = this.cursorActivity.bind(this);
-        this.scrollChanged = this.scrollChanged.bind(this);
+	static defaultProps = {
+		preserveScrollPosition: false
+	};
+
+	constructor(props) {
+		super(props);
+
+		this.cursorActivity = this.cursorActivity.bind(this);
+		this.scrollChanged = this.scrollChanged.bind(this);
 		this.keyUp = this.keyUp.bind(this);
-        this.focus = this.focus.bind(this);
-        this.focusChanged = this.focusChanged.bind(this);
+		this.focus = this.focus.bind(this);
+		this.focusChanged = this.focusChanged.bind(this);
 		this.codemirrorValueChanged = this.codemirrorValueChanged.bind(this);
 
-        this.state = {
-        };
-    }
+		this.state = {
+		};
+	}
 	getCodeMirrorInstance() {
 		return this.props.codeMirrorInstance || require('codemirror');
 	}
@@ -123,27 +144,6 @@ class CodeMirror extends Component {
 			</div>
 		);
 	}
-};
-
-CodeMirror.propTypes = {
-	autoFocus: PropTypes.bool,
-	className: PropTypes.any,
-	codeMirrorInstance: PropTypes.func,
-	defaultValue: PropTypes.string,
-	name: PropTypes.string,
-	onChange: PropTypes.func,
-	onCursorActivity: PropTypes.func,
-	onFocusChange: PropTypes.func,
-	onKeyUp: PropTypes.func,
-	onScroll: PropTypes.func,
-	options: PropTypes.object,
-	path: PropTypes.string,
-	value: PropTypes.string,
-	preserveScrollPosition: PropTypes.bool,
-};
-
-CodeMirror.defaultProps = {
-	preserveScrollPosition: false
 };
 
 export default CodeMirror;

@@ -4,6 +4,19 @@ import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 
 class Pane extends Component {
+    static propTypes = {
+        className: PropTypes.string.isRequired,
+        children: PropTypes.node.isRequired,
+        prefixer: PropTypes.instanceOf(Prefixer).isRequired,
+        size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        split: PropTypes.oneOf(['vertical', 'horizontal']),
+        style: stylePropType,
+    };
+
+    static defaultProps = {
+        prefixer: new Prefixer(),
+    };
+
     constructor(props) {
         super(props);
 
@@ -34,18 +47,5 @@ class Pane extends Component {
         return <div className={classes.join(' ')} style={prefixer.prefix(style)}>{children}</div>;
     }
 }
-
-Pane.propTypes = {
-    className: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
-    prefixer: PropTypes.instanceOf(Prefixer).isRequired,
-    size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    split: PropTypes.oneOf(['vertical', 'horizontal']),
-    style: stylePropType,
-};
-
-Pane.defaultProps = {
-    prefixer: new Prefixer(),
-};
 
 export default Pane;

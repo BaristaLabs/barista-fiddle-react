@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-import { white, fullBlack } from 'material-ui/styles/colors';
+import { fullBlack } from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import Workspace from './Workspace.js';
+import Workspace from './workspace/Workspace.js';
 
 const muiTheme = getMuiTheme({
   palette: {
     primary1Color: fullBlack,
-    textColor: white,
+    textColor: fullBlack,
   },
   appBar: {
     height: 50,

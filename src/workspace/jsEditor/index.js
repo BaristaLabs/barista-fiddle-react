@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
-import Dock from 'react-dock';
-import SplitPane from './split-pane/SplitPane.js';
-import CodeMirrorComponent from './codemirror/Codemirror.js';
+import PropTypes from 'prop-types';
+import CodeMirrorComponent from '../../codemirror/Codemirror.js';
 
 //Main CodeMirror
 import CodeMirror from 'codemirror';
@@ -44,28 +42,24 @@ import 'codemirror/mode/htmlmixed/htmlmixed.js';
 //CodeMirror Themes
 import 'codemirror/theme/neat.css'
 
-//Workspace Styles
-import './Workspace.css'
-
 window.tern = tern;
 window.JSHINT = jshint.JSHINT;
 
-class Workspace extends Component {
-    constructor() {
-        super();
+class JSEditor extends Component {
+    static propTypes = {
+        onUpdateCode: PropTypes.func,
+        code: PropTypes.string,
+    };
 
-        this.state = {
-            dockIsVisible: false,
-            code: "",
-            readOnly: false
-        };
-
-        this.updateCode = this.updateCode.bind(this);
-        this.onCursorActivity = this.onCursorActivity.bind(this);
-        this.onKeyUp = this.onKeyUp.bind(this);
+    static defaultProps = {
+        code: "let foobar = 'Hello, World!';\n\nfoobar;"
     }
 
-    componentDidMount() {
+    constructor(props) {
+        super(props);
+        
+        this.onCursorActivity = this.onCursorActivity.bind(this);
+        this.onKeyUp = this.onKeyUp.bind(this);
         this.ternServer = new CodeMirror.TernServer({
             defs: [ecmaScriptDefs]
         });
@@ -89,13 +83,6 @@ class Workspace extends Component {
         if (line.match(/^.*require\(['|"]$/i)) {
             this.ternServer.complete(cm);
         }
-    }
-
-    updateCode(newCode) {
-        this.setState({
-            code: newCode
-        });
-        //console.log(this.state);
     }
 
     render() {
@@ -181,25 +168,15 @@ class Workspace extends Component {
         };
 
         return (
-            <div>
-                <AppBar
-                    title="Barista Fiddle"
-                    onLeftIconButtonTouchTap={() => this.setState({ dockIsVisible: !this.state.dockIsVisible })}
-                    iconClassNameRight="muidocs-icon-navigation-expand-more"
-                    style={{ zIndex: 0 }}
-                />
-                <Dock position='left' isVisible={this.state.isVisible}>
-                    <div onClick={() => this.setState({ dockIsVisible: !this.state.dockIsVisible })}>X</div>
-                </Dock>
-                <div id="workspace">
-                    <SplitPane defaultSize="50%" minSize={250} split="vertical">
-                        <CodeMirrorComponent ref="editor" value={this.state.code} onChange={this.updateCode} onCursorActivity={this.onCursorActivity} onKeyUp={this.onKeyUp} options={options} autoFocus={true} workspace={this} />
-                        <div />
-                    </SplitPane>
-                </div>
-            </div>
+            <CodeMirrorComponent ref="editor" value={this.props.code}
+                onChange={this.props.onUpdateCode}
+                onCursorActivity={this.onCursorActivity}
+                onKeyUp={this.onKeyUp} options={options}
+                autoFocus={true}
+                workspace={this}
+            />
         );
     }
 }
 
-export default Workspace
+export default JSEditor

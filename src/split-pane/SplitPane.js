@@ -6,6 +6,7 @@ import stylePropType from 'react-style-proptype';
 
 import Pane from './Pane';
 import Resizer from './Resizer';
+import _ from 'lodash';
 
 function unFocus(document, window) {
     if (document.selection) {
@@ -19,8 +20,60 @@ function unFocus(document, window) {
 }
 
 class SplitPane extends Component {
-    constructor() {
-        super();
+    static propTypes = {
+        allowResize: PropTypes.bool,
+        children: PropTypes.arrayOf(PropTypes.node).isRequired,
+        className: PropTypes.string,
+        primary: PropTypes.oneOf(['first', 'second']),
+        minSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        maxSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        // eslint-disable-next-line react/no-unused-prop-types
+        defaultSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        split: PropTypes.oneOf(['vertical', 'horizontal']),
+        onDragStarted: PropTypes.func,
+        onDragFinished: PropTypes.func,
+        onChange: PropTypes.func,
+        onResizerClick: PropTypes.func,
+        onResizerDoubleClick: PropTypes.func,
+        prefixer: PropTypes.instanceOf(Prefixer).isRequired,
+        style: stylePropType,
+        resizerStyle: stylePropType,
+        paneStyle: stylePropType,
+        pane1Style: stylePropType,
+        pane2Style: stylePropType,
+        resizerClassName: PropTypes.string,
+    };
+
+    static defaultProps = {
+        allowResize: true,
+        minSize: 50,
+        maxSize: 0,
+        defaultSize: "50%",
+        prefixer: new Prefixer(),
+        primary: 'first',
+        split: 'vertical',
+        onResizerDoubleClick: (e, resizer) => {
+            const splitPane = resizer.props.splitPane;
+            if (splitPane.state.resized === false) {
+                splitPane.state = {
+                    active: false,
+                    resized: true,
+                    draggedSize: "100%"
+                };
+            }
+            else {
+                splitPane.state = {
+                    active: false,
+                    resized: false
+                };
+            }
+            splitPane.setSize(splitPane.props, splitPane.state);
+        }
+    };
+    
+    constructor(props) {
+        super(props);
 
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onTouchStart = this.onTouchStart.bind(this);
@@ -167,7 +220,10 @@ class SplitPane extends Component {
         const ref = primary === 'first' ? this.pane1 : this.pane2;
         let newSize;
         if (ref) {
-            newSize = props.size || (state && state.draggedSize) || props.defaultSize || props.minSize;
+            if (_.isNumber(props.size) && props.size >= 0)
+                newSize = props.size;
+            else
+                newSize = props.size || (state && state.draggedSize) || props.defaultSize || props.minSize;
             ref.setState({
                 size: newSize,
             });
@@ -261,57 +317,5 @@ class SplitPane extends Component {
         );
     }
 }
-
-SplitPane.propTypes = {
-    allowResize: PropTypes.bool,
-    children: PropTypes.arrayOf(PropTypes.node).isRequired,
-    className: PropTypes.string,
-    primary: PropTypes.oneOf(['first', 'second']),
-    minSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    maxSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    // eslint-disable-next-line react/no-unused-prop-types
-    defaultSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    split: PropTypes.oneOf(['vertical', 'horizontal']),
-    onDragStarted: PropTypes.func,
-    onDragFinished: PropTypes.func,
-    onChange: PropTypes.func,
-    onResizerClick: PropTypes.func,
-    onResizerDoubleClick: PropTypes.func,
-    prefixer: PropTypes.instanceOf(Prefixer).isRequired,
-    style: stylePropType,
-    resizerStyle: stylePropType,
-    paneStyle: stylePropType,
-    pane1Style: stylePropType,
-    pane2Style: stylePropType,
-    resizerClassName: PropTypes.string,
-};
-
-SplitPane.defaultProps = {
-    allowResize: true,
-    minSize: 50,
-    maxSize: 0,
-    defaultSize: "50%",
-    prefixer: new Prefixer(),
-    primary: 'first',
-    split: 'vertical',
-    onResizerDoubleClick: (e, resizer) => {
-        const splitPane = resizer.props.splitPane;
-        if (splitPane.state.resized === false) {
-            splitPane.state = {
-                active: false,
-                resized: true,
-                draggedSize: "100%"
-            };
-        }
-        else {
-            splitPane.state = {
-                active: false,
-                resized: false
-            };
-        }
-        splitPane.setSize(splitPane.props, splitPane.state);
-    }
-};
 
 export default SplitPane;

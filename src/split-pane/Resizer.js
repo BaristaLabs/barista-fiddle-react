@@ -4,6 +4,26 @@ import Prefixer from 'inline-style-prefixer';
 import stylePropType from 'react-style-proptype';
 
 class Resizer extends Component {
+    static propTypes = {
+        className: PropTypes.string.isRequired,
+        resizeHandleClassName: PropTypes.string.isRequired,
+        resizerClassName: PropTypes.string.isRequired,
+        onClick: PropTypes.func,
+        onDoubleClick: PropTypes.func,
+        onMouseDown: PropTypes.func.isRequired,
+        onTouchStart: PropTypes.func.isRequired,
+        onTouchEnd: PropTypes.func.isRequired,
+        prefixer: PropTypes.instanceOf(Prefixer).isRequired,
+        split: PropTypes.oneOf(['vertical', 'horizontal']),
+        style: stylePropType,
+    };
+
+    static defaultProps = {
+        prefixer: new Prefixer(),
+        resizerClassName: 'Resizer',
+        resizeHandleClassName: 'ResizerHandle'
+    };
+
     render() {
         const { className, resizeHandleClassName, onClick, onDoubleClick, onMouseDown, onTouchEnd, onTouchStart, prefixer, resizerClassName,
             split, style } = this.props;
@@ -42,25 +62,5 @@ class Resizer extends Component {
         );
     }
 }
-
-Resizer.propTypes = {
-    className: PropTypes.string.isRequired,
-    resizeHandleClassName: PropTypes.string.isRequired,
-    resizerClassName: PropTypes.string.isRequired,
-    onClick: PropTypes.func,
-    onDoubleClick: PropTypes.func,
-    onMouseDown: PropTypes.func.isRequired,
-    onTouchStart: PropTypes.func.isRequired,
-    onTouchEnd: PropTypes.func.isRequired,
-    prefixer: PropTypes.instanceOf(Prefixer).isRequired,
-    split: PropTypes.oneOf(['vertical', 'horizontal']),
-    style: stylePropType,
-};
-
-Resizer.defaultProps = {
-    prefixer: new Prefixer(),
-    resizerClassName: 'Resizer',
-    resizeHandleClassName: 'ResizerHandle'
-};
 
 export default Resizer;

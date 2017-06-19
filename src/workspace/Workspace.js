@@ -23,16 +23,15 @@ class Workspace extends Component {
         this.updateSidebarSize = this.updateSidebarSize.bind(this);
 
         this.appBarItems = [{
-            value: "bar",
             icon: 'SidePanel',
             onClick: this.toggleSidebar,
         },
         {
             name: "Barista Fiddle",
             style: {
-                fontSize: "24px"
+                fontSize: "21px"
             },
-            className: 'ms-fontColor-white ms-font-xl'
+            className: 'ms-fontColor-white'
         }
         ]
     }
@@ -79,10 +78,10 @@ class Workspace extends Component {
                         size={this.state.sidebarSize}
                         onChange={this.updateSidebarSize}
                     >
-                        <div>
+                        <div className="left-sidebar-body ms-bgColor-neutralLighter ms-fontColor-black">
                             <Pivot>
                                 <PivotItem linkText='History'>
-                                    <div>Pivot #1</div>
+                                    <div style={{height: "100%"}}>Pivot #1</div>
                                 </PivotItem>
                                 <PivotItem linkText='Collections'>
                                     <div>

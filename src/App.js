@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Fabric, Customizer } from 'office-ui-fabric-react';
+import { Fabric } from 'office-ui-fabric-react';
 import { createTheme, loadTheme } from 'office-ui-fabric-react/lib/Styling'
 
 import Workspace from './workspace/Workspace.js';
@@ -9,25 +9,26 @@ import './App.css';
 
 const greenTheme = createTheme({
   palette: {
-    themePrimary: 'red',
-    themeSecondary: 'green',
-    themeDarkAlt: 'darkGreen',
-    themeDark: 'black',
+    themePrimary: 'black',
+    themeDark: 'white',
+    themeDarkAlt: 'white',
+
+    neutralPrimary: 'white',
+    neutralPrimaryAlt: 'black',
+    neutralLight: '#333',
     neutralLighter: 'black',
-    infoBackground: 'blue'
-  },
-  semanticColors: {
-    bodyBackground: 'black'
+    neutralLighterAlt: '#ccc',
   }
 });
 
+
 class App extends Component {
   render() {
+    console.log(greenTheme);
+    loadTheme(greenTheme);
     return (
       <Fabric>
-        <Customizer settings={{ theme: greenTheme }}>
-          <Workspace />
-        </Customizer>
+        <Workspace />
       </Fabric>
     );
   }

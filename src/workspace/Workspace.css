@@ -39,12 +39,19 @@
 }
 
 .left-sidebar>.Resizer {
-    box-shadow: 2px 0 2px 0 rgba(0, 0, 0, 0.5);
-    background: #fff;
+    background: #c8c8c8;
 }
 
 .left-sidebar>.Resizer .ResizerHandle {
     background-color: initial;
+}
+
+.left-sidebar-body {
+    height: 100%
+}
+
+.left-sidebar-body .ms-Pivot {
+    background-color: #666666
 }
 
 .nav-bar {

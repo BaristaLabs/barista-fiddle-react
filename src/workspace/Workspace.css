@@ -9,6 +9,13 @@
     flex: 2;
 }
 
+.fiddle-command-bar #CommandBar0tidyUp .ms-Icon,
+.fiddle-command-bar #CommandBar0debug .ms-Icon,
+.fiddle-command-bar #CommandBar0showKeyboardShortcuts .ms-Icon
+{
+    font-family: FontAwesome;
+}
+
 .ReactCodeMirror {
     width: 100%;
     height: 100%
@@ -38,6 +45,10 @@
     background-image: url("./sidebar_normal.svg");
 }
 
+.ms-Pivot .ms-Pivot-link[class*="linkIsSelected_"]::before{
+    border-bottom: 2px solid darkgoldenrod;
+}
+
 .left-sidebar>.Resizer {
     background: #c8c8c8;
 }
@@ -51,7 +62,7 @@
 }
 
 .left-sidebar-body .ms-Pivot {
-    background-color: #666666
+    background-color: #402312
 }
 
 .nav-bar {

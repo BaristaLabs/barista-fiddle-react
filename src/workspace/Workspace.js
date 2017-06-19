@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
+import { CommandBar, ContextualMenuItemType } from 'office-ui-fabric-react/lib/CommandBar';
 import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import SplitPane from '../split-pane/SplitPane.js';
 import JSEditor from './jsEditor/';
@@ -22,24 +22,83 @@ class Workspace extends Component {
         this.toggleSidebar = this.toggleSidebar.bind(this);
         this.updateSidebarSize = this.updateSidebarSize.bind(this);
 
-        this.appBarItems = [{
-            icon: 'SidePanel',
-            onClick: this.toggleSidebar,
-        },
-        {
-            name: "Barista Fiddle",
-            style: {
-                fontSize: "21px"
+        this.appBarItems = [
+            {
+                icon: 'SidePanel',
+                onClick: this.toggleSidebar,
             },
-            className: 'ms-fontColor-white'
-        }
+            {
+                name: "Barista Fiddle",
+                style: {
+                    fontSize: "21px"
+                },
+                className: 'ms-fontColor-white'
+            },
+            {
+                name: "Eval",
+                icon: 'Play',
+                onClick: this.brewPackage,
+            },
+            {
+                key: "debug",
+                name: "Debug",
+                onClick: this.debugPackage,
+                iconProps: {
+                    className: "fa fa-bug"
+                }
+            },
+            {
+                itemType: "Divider",
+                disabled: true
+            },
+            {
+                key: "tidyUp",
+                name: "Tidy Up",
+                onClick: this.tidyUp,
+                iconProps: {
+                    className: "fa fa-align-left"
+                }
+            },
         ]
-    }
+
+
+        this.appBarFarItems = [
+            {
+                key: "showKeyboardShortcuts",
+                title: "Keyboard Shortcuts",
+                onClick: this.showKeyboardShortcuts,
+                iconProps: {
+                    className: "fa fa-keyboard-o"
+                }
+            },
+            {
+                icon: 'settings',
+                title: "Settings",
+                onClick: this.showSettings,
+            }
+        ];
+
+    };
 
     onUpdateCode(newCode) {
         this.setState({
             code: newCode
         });
+    }
+
+    brewPackage() {
+    }
+
+    debugPackage() {
+    }
+
+    tidyUp() {
+    }
+
+    showKeyboardShortcuts() {
+    }
+
+    showSettings() {
     }
 
     toggleSidebar() {
@@ -66,9 +125,10 @@ class Workspace extends Component {
         return (
             <div id="main">
                 <CommandBar
+                    className="fiddle-command-bar"
                     isSearchBoxVisible={false}
                     items={this.appBarItems}
-                    farItems={[]}
+                    farItems={this.appBarFarItems}
                 />
                 <div id="workspace">
                     <SplitPane defaultSize="0" split="vertical"
@@ -80,10 +140,10 @@ class Workspace extends Component {
                     >
                         <div className="left-sidebar-body ms-bgColor-neutralLighter ms-fontColor-black">
                             <Pivot>
-                                <PivotItem linkText='History'>
-                                    <div style={{height: "100%"}}>Pivot #1</div>
+                                <PivotItem id="history" linkText='History' itemIcon='History'>
+                                    <div style={{ height: "100%" }}>Pivot #1</div>
                                 </PivotItem>
-                                <PivotItem linkText='Collections'>
+                                <PivotItem linkText='Collections' itemIcon='ShowResults'>
                                     <div>
                                         <Collections />
                                     </div>

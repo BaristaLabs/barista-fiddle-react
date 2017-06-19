@@ -4,6 +4,7 @@ import { createTheme, loadTheme } from 'office-ui-fabric-react/lib/Styling'
 
 import Workspace from './workspace/Workspace.js';
 
+import  'font-awesome/css/font-awesome.css';
 import 'office-ui-fabric-react/dist/css/fabric.css';
 import './App.css';
 
@@ -18,6 +19,8 @@ const greenTheme = createTheme({
     neutralLight: '#333',
     neutralLighter: 'black',
     neutralLighterAlt: '#ccc',
+
+    neutralDark: 'white'
   }
 });
 

@@ -1,3 +1,9 @@
+#main {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
 #workspace {
     display: flex;
     flex: 2;
@@ -9,8 +15,8 @@
 }
 
 .CodeMirror {
-  border: 1px solid #eee;
-  height: 100%;
+    border: 1px solid #eee;
+    height: 100%;
 }
 
 .dockContent {
@@ -20,8 +26,8 @@
     align-items: 'center';
     justify-content: 'center';
     flex-direction: 'column';
-  }
-  
+}
+
 .sidebar-toggle-button-icon {
     display: block;
     width: 24px;
@@ -32,12 +38,12 @@
     background-image: url("./sidebar_normal.svg");
 }
 
-.left-sidebar > .Resizer {
-  box-shadow: 2px 0 2px 0 rgba(0, 0, 0, 0.5);
-  background: #fff;
+.left-sidebar>.Resizer {
+    box-shadow: 2px 0 2px 0 rgba(0, 0, 0, 0.5);
+    background: #fff;
 }
 
-.left-sidebar > .Resizer .ResizerHandle {
+.left-sidebar>.Resizer .ResizerHandle {
     background-color: initial;
 }
 

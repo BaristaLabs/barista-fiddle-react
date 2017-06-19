@@ -42,8 +42,3 @@
   width: 3px;
   height: 16px;
 }
-
-#workspace {
-    flex: 1;
-    display: flex;
-}

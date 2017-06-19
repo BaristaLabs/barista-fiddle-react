@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
-import { Tabs, Tab } from 'material-ui/Tabs';
+import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
+import { Pivot, PivotItem } from 'office-ui-fabric-react/lib/Pivot';
 import SplitPane from '../split-pane/SplitPane.js';
 import JSEditor from './jsEditor/';
 import Collections from './collections/Collections.js';
@@ -21,6 +21,20 @@ class Workspace extends Component {
         this.onUpdateCode = this.onUpdateCode.bind(this);
         this.toggleSidebar = this.toggleSidebar.bind(this);
         this.updateSidebarSize = this.updateSidebarSize.bind(this);
+
+        this.appBarItems = [{
+            value: "bar",
+            icon: 'SidePanel',
+            onClick: this.toggleSidebar,
+        },
+        {
+            name: "Barista Fiddle",
+            style: {
+                fontSize: "24px"
+            },
+            className: 'ms-fontColor-white ms-font-xl'
+        }
+        ]
     }
 
     onUpdateCode(newCode) {
@@ -51,21 +65,12 @@ class Workspace extends Component {
 
     render() {
         return (
-            <div>
-                {/*<Toolbar className="nav-bar">
-                    <ToolbarGroup firstChild={true}>
-                         <IconButton iconClassName="sidebar-toggle-button-icon" />
-                        <ToolbarTitle text="Barista Fiddle" />
-                        <ToolbarSeparator />
-                    </ToolbarGroup>
-                </Toolbar>*/}
-                <AppBar
-                    title="Barista Fiddle"
-                    onLeftIconButtonTouchTap={this.toggleSidebar}
-                    iconClassNameLeft="sidebar-toggle-button-icon"
-                    style={{ zIndex: 0 }}
-                >
-                </AppBar>
+            <div id="main">
+                <CommandBar
+                    isSearchBoxVisible={false}
+                    items={this.appBarItems}
+                    farItems={[]}
+                />
                 <div id="workspace">
                     <SplitPane defaultSize="0" split="vertical"
                         className="left-sidebar"
@@ -75,13 +80,16 @@ class Workspace extends Component {
                         onChange={this.updateSidebarSize}
                     >
                         <div>
-                            <Tabs>
-                                <Tab label="History">
-                                </Tab>
-                                <Tab label="Collections">
-                                    <Collections />
-                                </Tab>
-                            </Tabs>
+                            <Pivot>
+                                <PivotItem linkText='History'>
+                                    <div>Pivot #1</div>
+                                </PivotItem>
+                                <PivotItem linkText='Collections'>
+                                    <div>
+                                        <Collections />
+                                    </div>
+                                </PivotItem>
+                            </Pivot>
                         </div>
                         <SplitPane defaultSize="50%" minSize={250} split="vertical">
                             <JSEditor code={this.state.code} onUpdateCode={this.onUpdateCode} />
